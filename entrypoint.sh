@@ -44,3 +44,5 @@ do
 
     (( c++ ))
 done
+
+echo -e "Sync completed."
