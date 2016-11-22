@@ -42,6 +42,16 @@ do
         /mnt/remote/$(get_src) \
         /dest/$(get_dest)
 
+    if [ -n "${FILE_PERMS}" ]; then
+        echo -e "Setting permissions on all files in $(get_dest) to ${FILE_PERMS}"
+        find /dest/$(get_dest) -type f -exec chmod ${FILE_PERMS} {} \;
+    fi
+
+    if [ -n "${DIR_PERMS}" ]; then
+        echo -e "Setting permissions on all directories in $(get_dest) to ${DIR_PERMS}"
+        find /dest/$(get_dest) -type d -exec chmod ${DIR_PERMS} {} \;
+    fi
+
     (( c++ ))
 done
 
