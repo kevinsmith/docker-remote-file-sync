@@ -1,7 +1,7 @@
 FROM debian:jessie
 MAINTAINER Kevin Smith <kevin@kevinsmith.io>
 
-# Install sshfs
+# Install necessary libs
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sshfs \
     rsync \
