@@ -38,6 +38,8 @@ do
 
     echo "Syncing $(get_src) to $(get_dest)"
 
+    mkdir -p /dest/$(get_dest)
+
     rsync -avP --delete \
         /mnt/remote/$(get_src) \
         /dest/$(get_dest)
