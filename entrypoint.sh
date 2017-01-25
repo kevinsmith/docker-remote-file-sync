@@ -44,14 +44,31 @@ do
         /mnt/remote/$(get_src) \
         /dest/$(get_dest)
 
-    if [ -n "${FILE_PERMS}" ]; then
-        echo -e "Setting permissions on all files in $(get_dest) to ${FILE_PERMS}"
-        find /dest/$(get_dest) -type f -exec chmod ${FILE_PERMS} {} \;
+    # Setting ownership
+    if [ -n "${DEST_USER}" ]; then
+        # If both environment variables are set
+        if [ -n "${DEST_GROUP}" ]; then
+            echo -e "Setting user and group on all directories in $(get_dest) to ${DEST_USER}:${DEST_GROUP}"
+            chown -R ${DEST_USER}:${DEST_GROUP} /dest/$(get_dest)
+        fi
+
+        # If only the user is set
+        if [ -z "${DEST_GROUP}" ]; then
+            echo -e "Setting user on all directories in $(get_dest) to ${DEST_USER}"
+            chown -R ${DEST_USER} /dest/$(get_dest)
+        fi
     fi
 
-    if [ -n "${DIR_PERMS}" ]; then
-        echo -e "Setting permissions on all directories in $(get_dest) to ${DIR_PERMS}"
-        find /dest/$(get_dest) -type d -exec chmod ${DIR_PERMS} {} \;
+    # Setting file permissions
+    if [ -n "${DEST_FILE_PERMS}" ]; then
+        echo -e "Setting permissions on all files in $(get_dest) to ${DEST_FILE_PERMS}"
+        find /dest/$(get_dest) -type f -exec chmod ${DEST_FILE_PERMS} {} \;
+    fi
+
+    # Setting directory permissions
+    if [ -n "${DEST_DIR_PERMS}" ]; then
+        echo -e "Setting permissions on all directories in $(get_dest) to ${DEST_DIR_PERMS}"
+        find /dest/$(get_dest) -type d -exec chmod ${DEST_DIR_PERMS} {} \;
     fi
 
     (( c++ ))
