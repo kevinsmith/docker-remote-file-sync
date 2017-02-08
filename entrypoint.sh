@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #
 # Check required environment variables
 #
@@ -75,3 +77,5 @@ do
 done
 
 echo -e "Sync completed."
+
+exec "$@"
