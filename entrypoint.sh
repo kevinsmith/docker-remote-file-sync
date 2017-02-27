@@ -1,5 +1,7 @@
 #!/bin/bash
 
+REMOTE_PATH=${REMOTE_PATH:-'~'}
+
 #
 # Check required environment variables
 #
@@ -15,11 +17,11 @@ do
 done
 
 #
-# Connect to remove filesystem
+# Connect to remote filesystem
 #
 
-echo -e "sshfs ${USER}@${HOST}: /mnt/remote/"
-echo ${PASS} | sshfs ${USER}@${HOST}: /mnt/remote/ -o password_stdin -o StrictHostKeyChecking=no
+echo -e "sshfs ${USER}@${HOST}:${REMOTE_PATH} /mnt/remote/"
+echo ${PASS} | sshfs ${USER}@${HOST}:${REMOTE_PATH} /mnt/remote/ -o password_stdin -o StrictHostKeyChecking=no
 
 #
 # Cycle through syncing SYNC_#_SRC/SYNC_#_DEST pairs
