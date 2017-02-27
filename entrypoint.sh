@@ -1,10 +1,12 @@
 #!/bin/bash
 
+REMOTE_PATH=${REMOTE_PATH:-'~'}
+
 #
 # Check required environment variables
 #
 
-REQUIRED=( HOST USER PASS SYNC_1_SRC SYNC_1_DEST )
+REQUIRED=( HOST USER SYNC_1_SRC SYNC_1_DEST )
 
 for i in "${REQUIRED[@]}"
 do
@@ -15,11 +17,19 @@ do
 done
 
 #
-# Connect to remove filesystem
+# Connect to remote filesystem
 #
 
-echo -e "sshfs ${USER}@${HOST}: /mnt/remote/"
-echo ${PASS} | sshfs ${USER}@${HOST}: /mnt/remote/ -o password_stdin -o StrictHostKeyChecking=no
+echo -e "sshfs ${USER}@${HOST}:${REMOTE_PATH} /mnt/remote/"
+if [ -n "${PASS}" ]; then
+    echo ${PASS} | sshfs ${USER}@${HOST}:${REMOTE_PATH} /mnt/remote/ -o password_stdin,StrictHostKeyChecking=no
+else
+    if [ -z "${IDENTITY_FILE}" ]; then
+      echo -e "Environment variable IDENTITY_FILE is required for public key authentication, exiting..."
+      exit 1
+    fi
+    sshfs ${USER}@${HOST}:${REMOTE_PATH} /mnt/remote/ -o IdentityFile=${IDENTITY_FILE},StrictHostKeyChecking=no
+fi
 
 #
 # Cycle through syncing SYNC_#_SRC/SYNC_#_DEST pairs
