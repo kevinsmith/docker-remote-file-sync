@@ -58,13 +58,13 @@ do
     if [ -n "${DEST_USER}" ]; then
         # If both environment variables are set
         if [ -n "${DEST_GROUP}" ]; then
-            echo -e "Setting user and group on all directories in $(get_dest) to ${DEST_USER}:${DEST_GROUP}"
+            echo -e "Setting user and group on all files and directories in $(get_dest) to ${DEST_USER}:${DEST_GROUP}"
             chown -R ${DEST_USER}:${DEST_GROUP} /dest/$(get_dest)
         fi
 
         # If only the user is set
         if [ -z "${DEST_GROUP}" ]; then
-            echo -e "Setting user on all directories in $(get_dest) to ${DEST_USER}"
+            echo -e "Setting user on all files and directories in $(get_dest) to ${DEST_USER}"
             chown -R ${DEST_USER} /dest/$(get_dest)
         fi
     fi
