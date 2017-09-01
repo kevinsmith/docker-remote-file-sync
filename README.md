@@ -1,6 +1,6 @@
-# remote-file-sync
+# klsmith/remote-file-sync
 
-A one-way file sync from a remote server to a local filesystem.
+A Docker utility to perform a one-way file sync from a remote server (SFTP or SSH) to a local filesystem, with support for multiple source-destination pairs.
 
 ## Bug Reports
 
